@@ -1,7 +1,9 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
+import java.util.Collections;
 
 public class LinkedListExample {
 
@@ -27,8 +29,8 @@ public class LinkedListExample {
         return map_locations_list;
     }
 
-    public static ArrayList<ArrayList<String>> Sorting(ArrayList<String> map_locations_list) {
-        ArrayList<ArrayList<String>> sortedlist = new ArrayList<>();
+    public static ArrayList<ArrayList<String>> SortingByNumber(ArrayList<String> map_locations_list) {
+        ArrayList<ArrayList<String>> notSortedlist = new ArrayList<>();
         ArrayList<String> c1 = new ArrayList<>();
         ArrayList<String> c2 = new ArrayList<>();
         ArrayList<String> c3 = new ArrayList<>();
@@ -126,51 +128,58 @@ public class LinkedListExample {
                 case "22":
                     c22.add(map_locations_list.get(i));
                     break;
-                case "23":
-                    c23.add(map_locations_list.get(i));
-                    break;
-                case "x":
+                case "X":
                     cX.add(map_locations_list.get(i));
                     break;
-                case "y":
+                case "Y":
                     cY.add(map_locations_list.get(i));
                     break;
             }
-            sortedlist.add(c1);
-            sortedlist.add(c2);
-            sortedlist.add(c3);
-            sortedlist.add(c4);
-            sortedlist.add(c5);
-            sortedlist.add(c6);
-            sortedlist.add(c7);
-            sortedlist.add(c8);
-            sortedlist.add(c9);
-            sortedlist.add(c10);
-            sortedlist.add(c11);
-            sortedlist.add(c12);
-            sortedlist.add(c13);
-            sortedlist.add(c14);
-            sortedlist.add(c15);
-            sortedlist.add(c16);
-            sortedlist.add(c17);
-            sortedlist.add(c18);
-            sortedlist.add(c19);
-            sortedlist.add(c20);
-            sortedlist.add(c21);
-            sortedlist.add(c22);
-            sortedlist.add(c23);
-            sortedlist.add(cX);
-            sortedlist.add(cY);
-
         }
-        return sortedlist;
+        notSortedlist.add(c1);
+        notSortedlist.add(c2);
+        notSortedlist.add(c3);
+        notSortedlist.add(c4);
+        notSortedlist.add(c5);
+        notSortedlist.add(c6);
+        notSortedlist.add(c7);
+        notSortedlist.add(c8);
+        notSortedlist.add(c9);
+        notSortedlist.add(c10);
+        notSortedlist.add(c11);
+        notSortedlist.add(c12);
+        notSortedlist.add(c13);
+        notSortedlist.add(c14);
+        notSortedlist.add(c15);
+        notSortedlist.add(c16);
+        notSortedlist.add(c17);
+        notSortedlist.add(c18);
+        notSortedlist.add(c19);
+        notSortedlist.add(c20);
+        notSortedlist.add(c21);
+        notSortedlist.add(c22);
+        notSortedlist.add(c23);
+        notSortedlist.add(cX);
+        notSortedlist.add(cY);
+
+        //System.out.println(sortedlist.get(21));
+        return notSortedlist;
     }
 
+    private static ArrayList<ArrayList<String>> SortingAllLists(ArrayList<ArrayList<String>> notSortedlist) {
+        for (int z = 0; z < notSortedlist.size(); z++) {
+            notSortedlist.get(z).sort(null);
+        }
+        return notSortedlist;
+    }
 
     public static void main(String[] args) {
         ArrayList<String> map_locations_list = Readfile();
-        ArrayList<ArrayList<String>> sortedlist = Sorting(map_locations_list);
+        ArrayList<ArrayList<String>> notSortedlist = SortingByNumber(map_locations_list);
+        System.out.println(notSortedlist);
+        ArrayList<ArrayList<String>> sortedlist = SortingAllLists(notSortedlist);
         System.out.println(sortedlist);
-
     }
+
+
 }
