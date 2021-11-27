@@ -53,7 +53,6 @@ public class LinkedListExample {
         ArrayList<String> c20 = new ArrayList<>();
         ArrayList<String> c21 = new ArrayList<>();
         ArrayList<String> c22 = new ArrayList<>();
-        ArrayList<String> c23 = new ArrayList<>();
         ArrayList<String> cX = new ArrayList<>();
         ArrayList<String> cY = new ArrayList<>();
 
@@ -158,7 +157,6 @@ public class LinkedListExample {
         notSortedlist.add(c20);
         notSortedlist.add(c21);
         notSortedlist.add(c22);
-        notSortedlist.add(c23);
         notSortedlist.add(cX);
         notSortedlist.add(cY);
 
@@ -168,6 +166,14 @@ public class LinkedListExample {
 
     private static ArrayList<ArrayList<String>> SortingAllLists(ArrayList<ArrayList<String>> notSortedlist) {
         for (int z = 0; z < notSortedlist.size(); z++) {
+            //System.out.println(notSortedlist.get(z));
+            for (int y = 0; y<notSortedlist.get(z).size(); y++) {
+                System.out.println(notSortedlist.get(z).get(y));
+                String[] spliting = notSortedlist.get(z).get(y).split("p|q");
+                System.out.println(spliting[1]);
+                //String[] spliting2 =spliting[1].split("-");
+                float chromosome = Float.parseFloat((spliting[1]));
+            }
             notSortedlist.get(z).sort(null);
         }
         return notSortedlist;
@@ -176,9 +182,9 @@ public class LinkedListExample {
     public static void main(String[] args) {
         ArrayList<String> map_locations_list = Readfile();
         ArrayList<ArrayList<String>> notSortedlist = SortingByNumber(map_locations_list);
-        System.out.println(notSortedlist);
+        //System.out.println(notSortedlist);
         ArrayList<ArrayList<String>> sortedlist = SortingAllLists(notSortedlist);
-        System.out.println(sortedlist);
+        //System.out.println(sortedlist);
     }
 
 
