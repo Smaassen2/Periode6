@@ -336,23 +336,30 @@ public class MapLocationSorting {
         Scanner sc= new Scanner(System.in); //System.in is a standard input stream
         System.out.print("Enter Arraylist or Linkedlist: ");
         String type = sc.nextLine();
-        if (type != "Arraylist"|| type != "Linkedlist") {
-            System.out.print("Enter Arraylist or Linkedlist: ");
-            type = sc.nextLine();
+        if (type.equals("Arraylist")) {
+            long start = System.nanoTime();
+            ArrayList<String> map_locations_list = arrayListReadfile();
+            ArrayList<ArrayList<String>> notSortedlist = arrayListSortingByNumber(map_locations_list);
+            ArrayList<ArrayList<String>> sortedlist = arrayListSortingAllLists(notSortedlist);
+            System.out.println(sortedlist);
+            long end = System.nanoTime();
+            long timeInNano = end - start;
+            double elapsedTimeInSecond = (double) timeInNano / 1_000_000_000;
+            System.out.println("Elapsed Time in seconds: "+ elapsedTimeInSecond);
+        }
+        else if (type.equals("Linkedlist")){
+            long start = System.nanoTime();
+            LinkedList<String> map_locations_list = linkedListReadfile();
+            LinkedList<LinkedList<String>> notSortedlist = linkedListSortingByNumber(map_locations_list);
+            LinkedList<LinkedList<String>> sortedlist = linkedListSortingAllLists(notSortedlist);
+            System.out.println(sortedlist);
+            long end = System.nanoTime();
+            long timeInNano = end - start;
+            double elapsedTimeInSecond = (double) timeInNano / 1_000_000_000;
+            System.out.println("Elapsed Time in seconds: "+ elapsedTimeInSecond);
         }
         else {
-            if (type == "Arraylist") {
-                ArrayList<String> map_locations_list = arrayListReadfile();
-                ArrayList<ArrayList<String>> notSortedlist = arrayListSortingByNumber(map_locations_list);
-                ArrayList<ArrayList<String>> sortedlist = arrayListSortingAllLists(notSortedlist);
-                System.out.println(sortedlist);
-            }
-            else {
-                LinkedList<String> map_locations_list = linkedListReadfile();
-                LinkedList<LinkedList<String>> notSortedlist = linkedListSortingByNumber(map_locations_list);
-                LinkedList<LinkedList<String>> sortedlist = linkedListSortingAllLists(notSortedlist);
-                System.out.println(sortedlist);
-            }
+            System.out.println("Incorrect input");
         }
     }
 }
