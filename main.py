@@ -24,26 +24,24 @@ def readfile():
                 elif bandpresence == "b":
                     listb.append(float(concentrationlist[index].replace(",", ".")))
                 index += 1
+
+            # shapiro_test = scipy.stats.shapiro(lista)
+            # print(shapiro_test)
             tstatistic, pvalue = scipy.stats.ttest_ind(lista, listb, equal_var=True)
             tstatisticslist.append(tstatistic)
             pvaluelist.append(pvalue)
 
 
     output = open("Results1.txt", "w")
-    for (tstatisticpercentage) in tstatisticslist:
-        output.write(str(tstatisticslist[int(tstatisticpercentage)]))
+    for tstatisticpercentage in tstatisticslist:
+        print(len(tstatisticslist))
+        output.write(str(tstatisticpercentage))
         output.write(", ")
     output.write("\n")
     for pvaluepercentage in pvaluelist:
-        output.write(str(pvaluelist[int(pvaluepercentage)]))
+        output.write(str(pvaluepercentage))
         output.write(", ")
     output.close()
-
-
-            # output.write("\n" + "\n")
-            # for concentration in listb:
-            #     output.write(concentration)
-            # output.write("\n" + "\n" + "\n")
 
 
 if __name__ == '__main__':
