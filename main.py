@@ -25,16 +25,16 @@ def readfile():
                     listb.append(float(concentrationlist[index].replace(",", ".")))
                 index += 1
 
-            # shapiro_test = scipy.stats.shapiro(lista)
-            # print(shapiro_test)
-            tstatistic, pvalue = scipy.stats.ttest_ind(lista, listb, equal_var=True)
-            tstatisticslist.append(tstatistic)
-            pvaluelist.append(pvalue)
+            shapiro_test_statistic, shapiro_test_pvalue = scipy.stats.shapiro(lista)
+            if shapiro_test_pvalue < 0.05:
+                tstatistic, pvalue = scipy.stats.mannwhitneyu(lista, listb)
+                tstatisticslist.append(tstatistic)
+                pvaluelist.append(pvalue)
+
 
 
     output = open("Results1.txt", "w")
     for tstatisticpercentage in tstatisticslist:
-        print(len(tstatisticslist))
         output.write(str(tstatisticpercentage))
         output.write(", ")
     output.write("\n")
