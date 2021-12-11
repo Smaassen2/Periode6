@@ -7,6 +7,7 @@ def readfile():
     line = file.readline().strip()
     # Alle concentraties in een lijst zetten
     concentrationlist = line.split("\t")
+    markerlist = []
     tstatisticslist = []
     pvaluelist = []
     for line in file:
@@ -17,6 +18,7 @@ def readfile():
 
             line = file.readline().strip()
             bandpresencelist = line.split("\t")
+            marker = bandpresencelist[0]
             del bandpresencelist[0]
             for bandpresence in bandpresencelist:
                 if bandpresence == "a":
@@ -25,22 +27,33 @@ def readfile():
                     listb.append(float(concentrationlist[index].replace(",", ".")))
                 index += 1
 
-            shapiro_test_statistic, shapiro_test_pvalue = scipy.stats.shapiro(lista)
-            if shapiro_test_pvalue < 0.05:
-                tstatistic, pvalue = scipy.stats.mannwhitneyu(lista, listb)
+            tstatistic, pvalue = scipy.stats.ttest_ind(listb, lista, equal_var=True)
+            if pvalue < 0.1:
+                markerlist.append(marker)
                 tstatisticslist.append(tstatistic)
                 pvaluelist.append(pvalue)
 
-
-
-    output = open("Results1.txt", "w")
+    output = open("Significant.txt", "w")
+    index2 = 1
+    for marker in markerlist:
+        output.write(marker)
+        if index2 != len(markerlist):
+            output.write(", ")
+            index2 += 1
+    output.write("\n")
+    index2 = 1
     for tstatisticpercentage in tstatisticslist:
         output.write(str(tstatisticpercentage))
-        output.write(", ")
+        if index2 != len(markerlist):
+            output.write(", ")
+            index2 += 1
     output.write("\n")
+    index2 = 1
     for pvaluepercentage in pvaluelist:
         output.write(str(pvaluepercentage))
-        output.write(", ")
+        if index2 != len(markerlist):
+            output.write(", ")
+            index2 += 1
     output.close()
 
 
