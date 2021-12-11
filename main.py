@@ -1,14 +1,13 @@
 import scipy.stats
 
 
-def readfile():
+def getdata():
     sig_markerlist = []
-    sig_tstatisticslist = []
+    sig_tstatlist = []
     sig_pvaluelist = []
     notsig_markerlist = []
-    notsig_tstatisticslist = []
+    notsig_tstatlist = []
     notsig_pvaluelist = []
-
     file = open("ResultsOfMarkersAndAnthocyninConcentration.txt", "r")
     line = file.readline().strip()
     concentrationlist = line.split("\t")
@@ -31,24 +30,42 @@ def readfile():
                                        (",", ".")))
                 index += 1
 
-            tstatistic, pvalue = scipy.stats.ttest_ind(listb, lista,
-                                                       equal_var=True)
-            tstatistic = str(tstatistic)
-            if pvalue <= 0.05:
-                pvalue = str(pvalue)
-                tstatistic = tstatistic.replace(".", ",")
-                pvalue = pvalue.replace(".", ",")
-                sig_markerlist.append(marker)
-                sig_tstatisticslist.append(tstatistic)
-                sig_pvaluelist.append(pvalue)
-            else:
-                pvalue = str(pvalue)
-                tstatistic = tstatistic.replace(".", ",")
-                pvalue = pvalue.replace(".", ",")
-                notsig_markerlist.append(marker)
-                notsig_tstatisticslist.append(tstatistic)
-                notsig_pvaluelist.append(pvalue)
+            sig_markerlist, sig_tstatlist, sig_pvaluelist, \
+            notsig_markerlist, notsig_tstatlist,notsig_pvaluelist = \
+                ttest(marker, lista, listb, sig_markerlist,
+                      sig_tstatlist, sig_pvaluelist, notsig_markerlist,
+                      notsig_tstatlist, notsig_pvaluelist)
 
+    return sig_markerlist, sig_tstatlist, sig_pvaluelist,\
+           notsig_markerlist, notsig_tstatlist, notsig_pvaluelist
+
+def ttest(marker, lista, listb, sig_markerlist, sig_tstatlist,
+          sig_pvaluelist, notsig_markerlist, notsig_tstatlist,
+          notsig_pvaluelist):
+
+    tstatistic, pvalue = scipy.stats.ttest_ind(listb, lista,
+                                               equal_var=True)
+    tstatistic = str(tstatistic)
+    tstatistic = tstatistic.replace(".", ",")
+    if pvalue <= 0.05:
+        pvalue = str(pvalue)
+        pvalue = pvalue.replace(".", ",")
+        sig_markerlist.append(marker)
+        sig_tstatlist.append(tstatistic)
+        sig_pvaluelist.append(pvalue)
+    else:
+        pvalue = str(pvalue)
+        pvalue = pvalue.replace(".", ",")
+        notsig_markerlist.append(marker)
+        notsig_tstatlist.append(tstatistic)
+        notsig_pvaluelist.append(pvalue)
+
+    return sig_markerlist, sig_tstatlist, sig_pvaluelist, \
+           notsig_markerlist, notsig_tstatlist, notsig_pvaluelist
+
+def writefile(sig_markerlist, sig_tstatlist, sig_pvaluelist,
+              notsig_markerlist, notsig_tstatlist,
+              notsig_pvaluelist):
     output = open("Results.txt", "w")
     index2 = 0
     index3 = 0
@@ -56,15 +73,18 @@ def readfile():
                  "\n")
     for marker in sig_markerlist:
         output.write(marker + "\t" + sig_pvaluelist[index2] + "\t" +
-                     str(sig_tstatisticslist[index2]) + "\n")
+                     str(sig_tstatlist[index2]) + "\n")
         index2 += 1
     output.write("\n")
     for marker in notsig_markerlist:
         output.write(marker + "\t" + notsig_pvaluelist[index3] + "\t" +
-                     str(notsig_tstatisticslist[index3]) + "\n")
+                     str(notsig_tstatlist[index3]) + "\n")
         index3 += 1
     output.close()
 
 
 if __name__ == '__main__':
-    readfile()
+    sig_markerlist, sig_tstatlist, sig_pvaluelist, \
+    notsig_markerlist, notsig_tstatlist, notsig_pvaluelist = getdata()
+    writefile(sig_markerlist, sig_tstatlist, sig_pvaluelist,
+              notsig_markerlist, notsig_tstatlist, notsig_pvaluelist)
