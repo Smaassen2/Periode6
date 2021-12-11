@@ -8,10 +8,10 @@ def getdata():
     notsig_markerlist = []
     notsig_tstatlist = []
     notsig_pvaluelist = []
+
     file = open("ResultsOfMarkersAndAnthocyninConcentration.txt", "r")
     line = file.readline().strip()
     concentrationlist = line.split("\t")
-
     for line in file:
         if line != " ":
             lista = []
@@ -30,42 +30,29 @@ def getdata():
                                        (",", ".")))
                 index += 1
 
-            sig_markerlist, sig_tstatlist, sig_pvaluelist, \
-            notsig_markerlist, notsig_tstatlist,notsig_pvaluelist = \
-                ttest(marker, lista, listb, sig_markerlist,
-                      sig_tstatlist, sig_pvaluelist, notsig_markerlist,
-                      notsig_tstatlist, notsig_pvaluelist)
-
-    return sig_markerlist, sig_tstatlist, sig_pvaluelist,\
-           notsig_markerlist, notsig_tstatlist, notsig_pvaluelist
-
-def ttest(marker, lista, listb, sig_markerlist, sig_tstatlist,
-          sig_pvaluelist, notsig_markerlist, notsig_tstatlist,
-          notsig_pvaluelist):
-
-    tstatistic, pvalue = scipy.stats.ttest_ind(listb, lista,
-                                               equal_var=True)
-    tstatistic = str(tstatistic)
-    tstatistic = tstatistic.replace(".", ",")
-    if pvalue <= 0.05:
-        pvalue = str(pvalue)
-        pvalue = pvalue.replace(".", ",")
-        sig_markerlist.append(marker)
-        sig_tstatlist.append(tstatistic)
-        sig_pvaluelist.append(pvalue)
-    else:
-        pvalue = str(pvalue)
-        pvalue = pvalue.replace(".", ",")
-        notsig_markerlist.append(marker)
-        notsig_tstatlist.append(tstatistic)
-        notsig_pvaluelist.append(pvalue)
+            tstatistic, pvalue = scipy.stats.ttest_ind(listb, lista,
+                                                       equal_var=True)
+            tstatistic = str(tstatistic)
+            tstatistic = tstatistic.replace(".", ",")
+            if pvalue <= 0.05:
+                pvalue = str(pvalue)
+                pvalue = pvalue.replace(".", ",")
+                sig_markerlist.append(marker)
+                sig_tstatlist.append(tstatistic)
+                sig_pvaluelist.append(pvalue)
+            else:
+                pvalue = str(pvalue)
+                pvalue = pvalue.replace(".", ",")
+                notsig_markerlist.append(marker)
+                notsig_tstatlist.append(tstatistic)
+                notsig_pvaluelist.append(pvalue)
 
     return sig_markerlist, sig_tstatlist, sig_pvaluelist, \
-           notsig_markerlist, notsig_tstatlist, notsig_pvaluelist
+        notsig_markerlist, notsig_tstatlist, notsig_pvaluelist
+
 
 def writefile(sig_markerlist, sig_tstatlist, sig_pvaluelist,
-              notsig_markerlist, notsig_tstatlist,
-              notsig_pvaluelist):
+              notsig_markerlist, notsig_tstatlist, notsig_pvaluelist):
     output = open("Results.txt", "w")
     index2 = 0
     index3 = 0
@@ -84,7 +71,7 @@ def writefile(sig_markerlist, sig_tstatlist, sig_pvaluelist,
 
 
 if __name__ == '__main__':
-    sig_markerlist, sig_tstatlist, sig_pvaluelist, \
-    notsig_markerlist, notsig_tstatlist, notsig_pvaluelist = getdata()
+    sig_markerlist, sig_tstatlist, sig_pvaluelist, notsig_markerlist, \
+        notsig_tstatlist, notsig_pvaluelist = getdata()
     writefile(sig_markerlist, sig_tstatlist, sig_pvaluelist,
               notsig_markerlist, notsig_tstatlist, notsig_pvaluelist)
