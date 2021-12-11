@@ -10,14 +10,14 @@ def getdata():
     notsig_pvaluelist = []
 
     file = open("ResultsOfMarkersAndAnthocyninConcentration.txt", "r")
-    line = file.readline().strip()
-    concentrationlist = line.split("\t")
-    for line in file:
+    firstline = file.readline().strip()
+    concentrationlist = firstline.split("\t")
+    for _ in file:
+        line = file.readline().strip()
         if line != " ":
             lista = []
             listb = []
             index = 0
-            line = file.readline().strip()
             bandpresencelist = line.split("\t")
             marker = bandpresencelist[0]
             del bandpresencelist[0]
@@ -46,7 +46,6 @@ def getdata():
                 notsig_markerlist.append(marker)
                 notsig_tstatlist.append(tstatistic)
                 notsig_pvaluelist.append(pvalue)
-
     return sig_markerlist, sig_tstatlist, sig_pvaluelist, \
         notsig_markerlist, notsig_tstatlist, notsig_pvaluelist
 
